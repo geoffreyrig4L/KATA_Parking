@@ -42,4 +42,30 @@ public class Parking {
         }
         return result;
     }
+
+    public static void vehiculeSort(Parking parking, String type) {
+        switch(type){
+            case "Motos" :
+                parking.placeMotosOccupees -= 1;
+                break;
+            case "Voitures" :
+                parking.placeVoituresOccupees -= 1;
+                break;
+            case "Scooters" :
+                parking.placeScootersOccupees -= 1;
+                break;
+        }
+    }
+
+    public int getPlaceVoituresOccupees() {
+        return placeVoituresOccupees;
+    }
+
+    public int getPlaceScootersOccupees() {
+        return placeScootersOccupees;
+    }
+
+    public int getPlaceMotosOccupees() {
+        return placeMotosOccupees;
+    }
 }

@@ -14,7 +14,5 @@ public class Voitures extends Vehicules{
         }
     }
 
-    private void setPayPrice(boolean b) {
-        this.payedPrice = b;
-    }
+    private void setPayPrice(boolean b) {this.payedPrice = b;}
 }

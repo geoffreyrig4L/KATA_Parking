@@ -43,5 +43,4 @@ public class Vehicules {
     }
 
     public boolean getPayedSecurity(){ return payedSecurity; }
-
 }

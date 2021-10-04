@@ -3,30 +3,35 @@ package com.geoffrey.ParkingTest;
 import com.geoffrey.Vehicules.model.Parking;
 import com.geoffrey.Vehicules.model.Vehicules;
 import com.geoffrey.Vehicules.model.Voitures;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PayementTest {
 
-    @Test
-    void should_pay_voiture(){
-        Voitures voiture = new Voitures(5, false, false, 0);
+    @ValueSource(ints = {2,6,5})
+    @ParameterizedTest
+    void should_pay_voiture(int hours){
+        Voitures voiture = new Voitures(hours, false, false, 0);
+        float expected = 2*hours+5;
         float result = Parking.checkPayed(voiture);
-        assertEquals(15, result);
+        assertEquals(expected, result);
     }
 
-    @Test
-    void should_pay_moto(){
-        Vehicules vehicule = new Vehicules(7, false, true, 0);
+    @ValueSource(ints = {3,1,4})
+    @ParameterizedTest
+    void should_pay_moto(int hours){
+        Vehicules vehicule = new Vehicules(hours, false, true, 0);
         float result = Parking.checkPayed(vehicule);
-        assertEquals(7, result);
+        assertEquals(hours, result);
     }
 
-    @Test
-    void should_pay_scooter(){
-        Vehicules vehicule = new Vehicules(4, false, true, 0);
+    @ValueSource(ints = {3,0,7})
+    @ParameterizedTest
+    void should_pay_scooter(int hours){
+        Vehicules vehicule = new Vehicules(hours, false, true, 0);
         float result = Parking.checkPayed(vehicule);
-        assertEquals(4, result);
+        assertEquals(hours, result);
     }
 }

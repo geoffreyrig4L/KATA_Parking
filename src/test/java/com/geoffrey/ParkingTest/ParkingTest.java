@@ -1,6 +1,7 @@
 package com.geoffrey.ParkingTest;
 
 import com.geoffrey.Vehicules.model.Parking;
+import com.geoffrey.Vehicules.model.Vehicules;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -27,28 +28,46 @@ public class ParkingTest {
 
     @Test
     void should_out_moto(){
+        Vehicules vehicule = new Vehicules("Motos",5,true,10);
         Parking parking = new Parking(10,11,7);
-        int result = parking.getPlaceMotosOccupees() - 1;
-        Parking.vehiculeSort(parking,"Motos");
-        int expected = parking.getPlaceMotosOccupees();
-        assertEquals(expected, result);
-    }
-
-    @Test
-    void should_out_voiture(){
-        Parking parking = new Parking(10,11,7);
-        int result = parking.getPlaceVoituresOccupees() - 1;
-        Parking.vehiculeSort(parking,"Voitures");
-        int expected = parking.getPlaceVoituresOccupees();
-        assertEquals(expected, result);
+        String result = Parking.vehiculeSort(vehicule,parking);
+        assertEquals("La moto sort...", result);
     }
 
     @Test
     void should_out_scooter(){
+        Vehicules vehicule = new Vehicules("Scooters",5,true,10);
         Parking parking = new Parking(10,11,7);
-        int result = parking.getPlaceScootersOccupees() - 1;
-        Parking.vehiculeSort(parking,"Scooters");
-        int expected = parking.getPlaceScootersOccupees();
-        assertEquals(expected, result);
+        String result = Parking.vehiculeSort(vehicule,parking);
+        assertEquals("Le scooter sort...", result);
+    }
+
+    @Test
+    void should_out_voiture(){
+        Vehicules vehicule = new Vehicules("Voitures",5,true,10);
+        Parking parking = new Parking(10,11,7);
+        String result = Parking.vehiculeSort(vehicule,parking);
+        assertEquals("La voiture sort...", result);
+    }
+
+    @Test
+    void should_pay_moto(){
+        Vehicules vehicule = new Vehicules("Motos", 3,false,0);
+        float result = Parking.payement(vehicule);
+        assertEquals(3, result);
+    }
+
+    @Test
+    void should_pay_voiture(){
+        Vehicules vehicule = new Vehicules("Voitures", 5,false,0);
+        float result = Parking.payement(vehicule);
+        assertEquals(10, result);
+    }
+
+    @Test
+    void should_pay_scooter(){
+        Vehicules vehicule = new Vehicules("Scooters", 4,false,0);
+        float result = Parking.payement(vehicule);
+        assertEquals(4, result);
     }
 }

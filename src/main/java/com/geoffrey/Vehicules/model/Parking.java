@@ -45,6 +45,7 @@ public class Parking {
     }
 
     //Si la voiture a paye, elle sort et laisse une place libre
+    /*
     public static String vehiculeSort(Vehicules vehicule, Parking parking) {
         String result = "Vous n'avez pas paye le stationnement";
         switch(vehicule.getType()){
@@ -80,26 +81,13 @@ public class Parking {
                 break;
         }
         return result;
-    }
+    }*/
 
 
     //le conducteur procede au payement
-    public static float payement_tarifaire(Vehicules vehicule){
-        float prix;
-        if(vehicule.getType().equals("Voitures")){
-            prix = 2*vehicule.getNbHeures();
-        } else {
-            prix = 1 * vehicule.getNbHeures();
-        }
-        vehicule.setPrix(prix);
-        vehicule.setaPayeTarif(true);
-        return prix;
-    }
-
-    public static float payement_securite(Vehicules vehicule){
-        float prix = vehicule.getPrix() + 5;
-        vehicule.setPrix(prix);
-        vehicule.setAPayeSecurite(true);
-        return prix;
+    public static float checkPayed(Vehicules vehicule){
+        vehicule.toPayPrice();
+        vehicule.toPaySecurity();
+        return vehicule.getPrice();
     }
 }

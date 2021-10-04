@@ -2,49 +2,46 @@ package com.geoffrey.Vehicules.model;
 
 public class Vehicules {
 
-    private String type;
-    private int nbHeures;
-    private boolean aPayeTarif;
-    private boolean aPayeSecurite;
-    private float prix;
+    protected int nbHours;
+    protected boolean payedPrice;
+    protected boolean payedSecurity;
+    protected float price;
 
-    public Vehicules(String type, int nbHeures, boolean aPaye, boolean aPayeSecurite, float prix){
-        this.type = type ;
-        this.nbHeures = nbHeures;
-        this.aPayeTarif = aPaye;
-        this.aPayeSecurite = aPayeSecurite;
-        this.prix = prix;
+    public Vehicules(int nbHours, boolean payedPrice, boolean payedSecurity, float price) {
+        this.nbHours = nbHours;
+        this.payedPrice = payedPrice;
+        this.payedSecurity = payedSecurity;
+        this.price = price;
     }
 
-    public void setaPayeTarif(boolean aPayeTarif) {
-        this.aPayeTarif = aPayeTarif;
+    public void toPayPrice() {
+        if (!this.payedPrice) {
+            this.price += this.nbHours;
+            this.setPayPrice(true);
+        }
     }
 
-    public void setPrix(float prix) {
-        this.prix = prix;
+    public void toPaySecurity() {
+        if (!this.payedSecurity) {
+            this.price += 5;
+            this.setPaySecurity(true);
+        }
     }
 
-    public String getType() {
-        return type;
+    private void setPayPrice(boolean b) {
+        this.payedPrice = b;
     }
 
-    public int getNbHeures() {
-        return nbHeures;
+    private void setPaySecurity(boolean b) {
+        this.payedSecurity = b;
     }
 
-    public boolean getAPaye() {
-        return aPayeTarif;
+    public int getNbHours() {return nbHours;}
+
+    public float getPrice() {
+        return this.price;
     }
 
-    public float getPrix() {
-        return prix;
-    }
+    public boolean getPayedSecurity(){ return payedSecurity; }
 
-    public void setAPayeSecurite(boolean b) {
-        this.aPayeSecurite = true;
-    }
-
-    public boolean getAPayeSecurite() {
-        return aPayeSecurite;
-    }
 }

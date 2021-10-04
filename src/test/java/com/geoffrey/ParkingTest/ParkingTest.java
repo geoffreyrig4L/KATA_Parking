@@ -28,7 +28,7 @@ public class ParkingTest {
 
     @Test
     void should_out_moto(){
-        Vehicules vehicule = new Vehicules("Motos",5,true,10);
+        Vehicules vehicule = new Vehicules("Motos",5,true, true, 10);
         Parking parking = new Parking(10,11,7);
         String result = Parking.vehiculeSort(vehicule,parking);
         assertEquals("La moto sort...", result);
@@ -36,7 +36,7 @@ public class ParkingTest {
 
     @Test
     void should_out_scooter(){
-        Vehicules vehicule = new Vehicules("Scooters",5,true,10);
+        Vehicules vehicule = new Vehicules("Scooters",5,true, true, 10);
         Parking parking = new Parking(10,11,7);
         String result = Parking.vehiculeSort(vehicule,parking);
         assertEquals("Le scooter sort...", result);
@@ -44,30 +44,9 @@ public class ParkingTest {
 
     @Test
     void should_out_voiture(){
-        Vehicules vehicule = new Vehicules("Voitures",5,true,10);
+        Vehicules vehicule = new Vehicules("Voitures",5,true, true, 10);
         Parking parking = new Parking(10,11,7);
         String result = Parking.vehiculeSort(vehicule,parking);
         assertEquals("La voiture sort...", result);
-    }
-
-    @Test
-    void should_pay_moto(){
-        Vehicules vehicule = new Vehicules("Motos", 3,false,0);
-        float result = Parking.payement(vehicule);
-        assertEquals(3, result);
-    }
-
-    @Test
-    void should_pay_voiture(){
-        Vehicules vehicule = new Vehicules("Voitures", 5,false,0);
-        float result = Parking.payement(vehicule);
-        assertEquals(10, result);
-    }
-
-    @Test
-    void should_pay_scooter(){
-        Vehicules vehicule = new Vehicules("Scooters", 4,false,0);
-        float result = Parking.payement(vehicule);
-        assertEquals(4, result);
     }
 }

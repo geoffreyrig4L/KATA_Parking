@@ -12,6 +12,7 @@ public class Parking {
         this.placeVoituresOccupees = nbVoitures;
     }
 
+    //si il y a de la place le vehicule se gare
     public static String vehiculeEntrantPeutIlSeGarer(Parking parking, String typeVehicule){
         String result = "";
         switch(typeVehicule){
@@ -49,20 +50,32 @@ public class Parking {
         switch(vehicule.getType()){
             case "Motos" :
                 if(vehicule.getAPaye()){
-                    parking.placeMotosOccupees -= 1;
-                    result = "La moto sort...";
+                    if(vehicule.getAPayeSecurite()){
+                        parking.placeMotosOccupees -= 1;
+                        result = "La moto sort...";
+                    } else{
+                        result = "Vous n'avez pas regle le tarif de la video surveillance pour votre moto";
+                    }
                 }
                 break;
             case "Voitures" :
-                if(vehicule.getAPaye()) {
-                    parking.placeVoituresOccupees -= 1;
-                    result = "La voiture sort...";
+                if(vehicule.getAPaye()){
+                    if(vehicule.getAPayeSecurite()){
+                        parking.placeVoituresOccupees -= 1;
+                        result = "La voiture sort...";
+                    } else{
+                        result = "Vous n'avez pas regle le tarif de la video surveillance pour votre voiture";
+                    }
                 }
                 break;
             case "Scooters" :
-                if(vehicule.getAPaye()) {
-                    parking.placeScootersOccupees -= 1;
-                    result = "Le scooter sort...";
+                if(vehicule.getAPaye()){
+                    if(vehicule.getAPayeSecurite()){
+                        parking.placeScootersOccupees -= 1;
+                        result = "Le scooter sort...";
+                    } else{
+                        result = "Vous n'avez pas regle le tarif de la video surveillance pour votre scooter";
+                    }
                 }
                 break;
         }
@@ -70,27 +83,23 @@ public class Parking {
     }
 
 
-    public static float payement(Vehicules vehicule){
+    //le conducteur procede au payement
+    public static float payement_tarifaire(Vehicules vehicule){
         float prix;
         if(vehicule.getType().equals("Voitures")){
             prix = 2*vehicule.getNbHeures();
         } else {
-            prix = 1*vehicule.getNbHeures();
+            prix = 1 * vehicule.getNbHeures();
         }
         vehicule.setPrix(prix);
-        vehicule.setaPaye(true);
+        vehicule.setaPayeTarif(true);
         return prix;
     }
 
-    public int getPlaceVoituresOccupees() {
-        return placeVoituresOccupees;
-    }
-
-    public int getPlaceScootersOccupees() {
-        return placeScootersOccupees;
-    }
-
-    public int getPlaceMotosOccupees() {
-        return placeMotosOccupees;
+    public static float payement_securite(Vehicules vehicule){
+        float prix = vehicule.getPrix() + 5;
+        vehicule.setPrix(prix);
+        vehicule.setAPayeSecurite(true);
+        return prix;
     }
 }

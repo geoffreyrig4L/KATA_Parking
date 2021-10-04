@@ -4,18 +4,20 @@ public class Vehicules {
 
     private String type;
     private int nbHeures;
-    private boolean aPaye;
+    private boolean aPayeTarif;
+    private boolean aPayeSecurite;
     private float prix;
 
-    public Vehicules(String type, int nbHeures, boolean aPaye, float prix){
+    public Vehicules(String type, int nbHeures, boolean aPaye, boolean aPayeSecurite, float prix){
         this.type = type ;
         this.nbHeures = nbHeures;
-        this.aPaye = aPaye;
+        this.aPayeTarif = aPaye;
+        this.aPayeSecurite = aPayeSecurite;
         this.prix = prix;
     }
 
-    public void setaPaye(boolean aPaye) {
-        this.aPaye = aPaye;
+    public void setaPayeTarif(boolean aPayeTarif) {
+        this.aPayeTarif = aPayeTarif;
     }
 
     public void setPrix(float prix) {
@@ -31,6 +33,18 @@ public class Vehicules {
     }
 
     public boolean getAPaye() {
-        return aPaye;
+        return aPayeTarif;
+    }
+
+    public float getPrix() {
+        return prix;
+    }
+
+    public void setAPayeSecurite(boolean b) {
+        this.aPayeSecurite = true;
+    }
+
+    public boolean getAPayeSecurite() {
+        return aPayeSecurite;
     }
 }

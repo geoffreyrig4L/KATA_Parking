@@ -1,15 +1,22 @@
 package com.geoffrey.Vehicules.model;
 
+import java.time.LocalDateTime;
+
 public abstract class Vehicle {
 
-    protected int nbHours;
+    protected double durationToPay;
+    protected LocalDateTime checkin;
+    protected LocalDateTime checkout;
     protected boolean payedPrice;
     protected boolean payedSecurity;
     protected float price;
-    protected int places ;
+    protected int places;
 
-    public Vehicle(int nbHours, boolean payedPrice, boolean payedSecurity, float price, int places) {
-        this.nbHours = nbHours;
+
+    public Vehicle(LocalDateTime checkin, LocalDateTime checkout, boolean payedPrice, boolean payedSecurity, float price, int places) {
+        this.durationToPay = 0;
+        this.checkin = checkin;
+        this.checkout = checkout;
         this.payedPrice = payedPrice;
         this.payedSecurity = payedSecurity;
         this.price = price;
@@ -22,6 +29,8 @@ public abstract class Vehicle {
             this.setPaySecurity(true);
         }
     }
+
+    public void setDurationToPay(int newNb){this.durationToPay = newNb;}
 
     public void setPayPrice(boolean b) {this.payedPrice = b;}
 
@@ -36,4 +45,14 @@ public abstract class Vehicle {
     public void setPlaces(int newPlaces) { this.places = newPlaces; }
 
     public boolean getPayedPrice() { return this.payedPrice; }
+
+    public void setCheckin(LocalDateTime now) { this.checkin = now;}
+
+    public void setCheckout(LocalDateTime now) { this.checkout = now;}
+
+    public int getDurationToPay(){ return this.getDurationToPay(); };
+
+    public LocalDateTime getCheckin() {return this.checkin;}
+
+    public LocalDateTime getCheckout() {return this.checkout;}
 }

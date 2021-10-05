@@ -1,9 +1,11 @@
 package com.geoffrey.Vehicules.model;
 
+import java.time.LocalDateTime;
+
 public class Moto extends TwoWheels {
 
-    public Moto(int nbHours, boolean payedPrice, boolean payedSecurity, float price, int places){
-        super(nbHours, payedPrice, payedSecurity, price, places);
+    public Moto(LocalDateTime checkin, LocalDateTime checkout, boolean payedPrice, boolean payedSecurity, float price, int places) {
+        super(checkin, checkout, payedPrice, payedSecurity, price, places);
     }
 }
 

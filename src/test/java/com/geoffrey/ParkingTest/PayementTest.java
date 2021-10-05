@@ -4,24 +4,29 @@ import com.geoffrey.Vehicules.model.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PayementTest {
 
-    @ValueSource(ints = {2,6,5})
+    /*@ValueSource( ... )
     @ParameterizedTest
-    void should_pay_car(int hours){
-        Car car = new Car(hours, false, false, 0, 5);
-        float expected = 2*hours+5;
-        float result = Parking.checkPayedForCar(car);
+    void should_pay_car(LocalDateTime hourCheckin){
+        Car car = new Car(hourCheckin, null, false, false, 0, 5);
+        ParkingCar.carWantToLeave(car);
+        Duration duration = Parking.calculateDuration(hourCheckin, car.getCheckout());
+        float expected = 2*duration +5;
+        float result = ParkingCar.checkPayedForCar(car);
         assertEquals(expected, result);
     }
 
-    @ValueSource(ints = {3,1,4})
+    @ValueSource( ... )
     @ParameterizedTest
     void should_pay_two_wheels(int hours){
-        Moto moto = new Moto(hours, false, true, 0, 5);
-        float result = Parking.checkPayedForTwoWheels(moto);
+        Moto moto = new Moto(null, null, false, true, 0, 5);
+        float result = ParkingMoto.motoWantToLeave(moto);
         assertEquals(hours, result);
-    }
+    }*/
 }

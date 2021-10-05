@@ -6,13 +6,10 @@ public class Car extends Vehicle {
         super(nbHours, payedPrice, payedSecurity, price, places);
     }
 
-    @Override
     public void toPayPrice(){
         if(!this.payedPrice){
             this.price += 2*this.nbHours;
             this.setPayPrice(true);
         }
     }
-
-    private void setPayPrice(boolean b) {this.payedPrice = b;}
 }

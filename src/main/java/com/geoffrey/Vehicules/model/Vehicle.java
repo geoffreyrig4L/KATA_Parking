@@ -16,18 +16,6 @@ public abstract class Vehicle {
         this.places = places;
     }
 
-    public void hourPrice(){
-        return
-    }
-
-
-    public void toPayPrice() {
-        if (!this.payedPrice) {
-            this.price += this.nbHours;
-            this.setPayPrice(true);
-        }
-    }
-
     public void toPaySecurity() {
         if (!this.payedSecurity) {
             this.price += 5;
@@ -35,9 +23,9 @@ public abstract class Vehicle {
         }
     }
 
-    private void setPayPrice(boolean b) {this.payedPrice = b;}
+    public void setPayPrice(boolean b) {this.payedPrice = b;}
 
-    private void setPaySecurity(boolean b) {this.payedSecurity = b;}
+    public void setPaySecurity(boolean b) {this.payedSecurity = b;}
 
     public float getPrice() {return this.price;}
 

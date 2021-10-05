@@ -1,5 +1,5 @@
-import com.geoffrey.Vehicules.model.Car;
-import com.geoffrey.Vehicules.model.ParkingCar;
+import com.geoffrey.model.Vehicles.Car;
+import com.geoffrey.model.Parking.ParkingCar;
 
 public class Main {
 

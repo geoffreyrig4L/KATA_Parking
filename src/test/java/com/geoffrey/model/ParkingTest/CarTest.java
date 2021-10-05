@@ -1,6 +1,7 @@
-package com.geoffrey.ParkingTest;
+package com.geoffrey.model.ParkingTest;
 
-import com.geoffrey.Vehicules.model.*;
+import com.geoffrey.model.Vehicles.Car;
+import com.geoffrey.model.Parking.ParkingCar;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -49,4 +50,16 @@ public class CarTest {
         String result = ParkingCar.carOut(car);
         assertEquals("Vous n'avez pas regle le tarif pour la video surveillance votre voiture.", result);
     }
+
+    //paiement
+    /*@ValueSource( ... )
+    @ParameterizedTest
+    void should_pay_car(LocalDateTime hourCheckin){
+        Car car = new Car(hourCheckin, null, false, false, 0, 5);
+        ParkingCar.carWantToLeave(car);
+        Duration duration = Parking.calculateDuration(hourCheckin, car.getCheckout());
+        float expected = 2*duration +5;
+        float result = ParkingCar.checkPayedForCar(car);
+        assertEquals(expected, result);
+    }*/
 }

@@ -1,6 +1,7 @@
-package com.geoffrey.Vehicules.model;
+package com.geoffrey.model.Parking;
 
-import java.time.Duration;
+import com.geoffrey.model.Vehicles.Car;
+
 import java.time.LocalDateTime;
 
 public class ParkingCar extends Parking{
@@ -12,8 +13,7 @@ public class ParkingCar extends Parking{
             result = "Vous pouvez vous garer.";
             int newNumberVehicules = car.getPlaces() + 1;
             car.setPlaces(newNumberVehicules);
-            car.setCheckin(LocalDateTime.now());
-            System.out.println(car.checkin);
+            //car.setCheckin(LocalDateTime.now());System.out.println(car.checkin);
         }
         return result;
     }

@@ -1,4 +1,4 @@
-package com.geoffrey.Vehicules.model;
+package com.geoffrey.model.Vehicles;
 
 import java.time.LocalDateTime;
 

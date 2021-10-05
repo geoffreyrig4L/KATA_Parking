@@ -1,4 +1,4 @@
-package com.geoffrey.Vehicules.model;
+package com.geoffrey.model.Parking;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

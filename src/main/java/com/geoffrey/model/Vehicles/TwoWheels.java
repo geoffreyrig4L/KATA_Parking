@@ -8,10 +8,8 @@ public class TwoWheels extends Vehicle{
         super(checkin, checkout, payedPrice, payedSecurity, price, places);
     }
 
-    public void toPayPrice() {
-        if (!this.payedPrice) {
-            this.price += this.durationToPay;
-            this.setPayPrice(true);
-        }
+    @Override
+    public int getPriceHourly(){
+        return 1;
     }
 }

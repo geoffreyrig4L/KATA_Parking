@@ -23,6 +23,15 @@ public abstract class Vehicle {
         this.places = places;
     }
 
+    public abstract int getPriceHourly();
+
+    public void toPayPrice(){
+        if(!this.payedPrice){
+            this.price += this.getPriceHourly() * this.durationToPay;
+            this.setPayPrice(true);
+        }
+    }
+
     public void toPaySecurity() {
         if (!this.payedSecurity) {
             this.price += 5;

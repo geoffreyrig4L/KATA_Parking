@@ -8,10 +8,9 @@ public class Car extends Vehicle {
         super(checkin, checkout, payedPrice, payedSecurity, price, places);
     }
 
-    public void toPayPrice(){
-        if(!this.payedPrice){
-            this.price += 2*this.durationToPay;
-            this.setPayPrice(true);
-        }
+    @Override
+    public int getPriceHourly(){
+        return 2;
     }
+
 }

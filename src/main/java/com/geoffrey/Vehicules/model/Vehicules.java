@@ -49,4 +49,6 @@ public class Vehicules {
     public int getPlaces() {return this.places;}
 
     public void setPlaces(int newPlaces) { this.places = newPlaces; }
+
+    public boolean getPayedPrice() { return this.payedPrice; }
 }

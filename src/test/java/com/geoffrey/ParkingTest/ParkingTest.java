@@ -2,6 +2,7 @@ package com.geoffrey.ParkingTest;
 
 import com.geoffrey.Vehicules.model.Parking;
 import com.geoffrey.Vehicules.model.Vehicules;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -26,19 +27,17 @@ public class ParkingTest {
         assertEquals("Parking plein !", result);
     }
 
-    /*@Test
-    void should_out_scooter(){
-        Vehicules vehicule = new Vehicules("Scooters",5,true, true, 10);
-        Parking parking = new Parking(10,11,7);
-        String result = Parking.vehiculeSort(vehicule,parking);
-        assertEquals("Le scooter sort...", result);
+    @Test
+    void should_out(){
+        Vehicules vehicule = new Vehicules(5,true,true, 10, 10);
+        String result = Parking.vehiculeOut(vehicule);
+        assertEquals("Le vehicule sort...", result);
     }
 
     @Test
-    void should_out_voiture(){
-        Vehicules vehicule = new Vehicules("Voitures",5,true, true, 10);
-        Parking parking = new Parking(10,11,7);
-        String result = Parking.vehiculeSort(vehicule,parking);
-        assertEquals("La voiture sort...", result);
-    }*/
+    void should_not_out(){
+        Vehicules vehicule = new Vehicules(5,false,false, 0, 10);
+        String result = Parking.vehiculeOut(vehicule);
+        assertEquals("Vous n'avez pas paye le stationnement.", result);
+    }
 }

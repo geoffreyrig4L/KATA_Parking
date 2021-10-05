@@ -6,12 +6,14 @@ public class Vehicules {
     protected boolean payedPrice;
     protected boolean payedSecurity;
     protected float price;
+    protected int places ;
 
-    public Vehicules(int nbHours, boolean payedPrice, boolean payedSecurity, float price) {
+    public Vehicules(int nbHours, boolean payedPrice, boolean payedSecurity, float price, int places) {
         this.nbHours = nbHours;
         this.payedPrice = payedPrice;
         this.payedSecurity = payedSecurity;
         this.price = price;
+        this.places = places;
     }
 
     public void toPayPrice() {
@@ -43,4 +45,8 @@ public class Vehicules {
     }
 
     public boolean getPayedSecurity(){ return payedSecurity; }
+
+    public int getPlaces() {return this.places;}
+
+    public void setPlaces(int newPlaces) { this.places = newPlaces; }
 }

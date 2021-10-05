@@ -2,46 +2,22 @@ package com.geoffrey.Vehicules.model;
 
 public class Parking {
 
-    private int placeVoituresOccupees;
-    private int placeScootersOccupees;
-    private int placeMotosOccupees;
-
-    public Parking(int nbMotos, int nbVoitures, int nbScooters){
-        this.placeMotosOccupees = nbMotos;
-        this.placeScootersOccupees = nbScooters;
-        this.placeVoituresOccupees = nbVoitures;
-    }
-
     //si il y a de la place le vehicule se gare
-    public static String vehiculeEntrantPeutIlSeGarer(Parking parking, String typeVehicule){
-        String result = "";
-        switch(typeVehicule){
-            case "Motos" :
-                if(parking.placeMotosOccupees >= 3) {
-                    result = "Parking plein !";
-                }else{
-                    result = "Vous pouvez vous garer";
-                    parking.placeMotosOccupees += 1;
-                }
-                break;
-            case "Voitures" :
-                if(parking.placeVoituresOccupees >= 10) {
-                    result = "Parking plein !";
-                }else{
-                    result = "Vous pouvez vous garer";
-                    parking.placeVoituresOccupees += 1;
-                }
-                break;
-            case "Scooters" :
-                if(parking.placeScootersOccupees >= 6) {
-                    result = "Parking plein !";
-                }else{
-                    result = "Vous pouvez vous garer";
-                    parking.placeScootersOccupees += 1;
-                }
-                break;
+    public static String canYouPark(Vehicules vehicule){
+        String result = "Parking plein !";
+        if(vehicule.getPlaces()<=10){
+            result = "Vous pouvez vous garer.";
+            int newNumberVehicules = vehicule.getPlaces() + 1;
+            vehicule.setPlaces(newNumberVehicules);
         }
         return result;
+    }
+
+    //le conducteur procede au payement
+    public static float checkPayed(Vehicules vehicule){
+        vehicule.toPayPrice();
+        vehicule.toPaySecurity();
+        return vehicule.getPrice();
     }
 
     //Si la voiture a paye, elle sort et laisse une place libre
@@ -82,12 +58,4 @@ public class Parking {
         }
         return result;
     }*/
-
-
-    //le conducteur procede au payement
-    public static float checkPayed(Vehicules vehicule){
-        vehicule.toPayPrice();
-        vehicule.toPaySecurity();
-        return vehicule.getPrice();
-    }
 }

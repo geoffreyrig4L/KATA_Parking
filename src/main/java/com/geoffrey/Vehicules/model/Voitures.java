@@ -2,8 +2,8 @@ package com.geoffrey.Vehicules.model;
 
 public class Voitures extends Vehicules{
 
-    public Voitures(int nbHours, boolean payedPrice, boolean payedSecurity, float price){
-        super(nbHours, payedPrice, payedSecurity, price);
+    public Voitures(int nbHours, boolean payedPrice, boolean payedSecurity, float price, int places){
+        super(nbHours, payedPrice, payedSecurity, price, places);
     }
 
     @Override

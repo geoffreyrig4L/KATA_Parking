@@ -1,8 +1,8 @@
 package com.geoffrey.Vehicules.model;
 
-public class Voitures extends Vehicules{
+public class Car extends Vehicle {
 
-    public Voitures(int nbHours, boolean payedPrice, boolean payedSecurity, float price, int places){
+    public Car(int nbHours, boolean payedPrice, boolean payedSecurity, float price, int places){
         super(nbHours, payedPrice, payedSecurity, price, places);
     }
 

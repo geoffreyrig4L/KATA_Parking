@@ -1,6 +1,6 @@
 package com.geoffrey.Vehicules.model;
 
-public class Vehicules {
+public abstract class Vehicle {
 
     protected int nbHours;
     protected boolean payedPrice;
@@ -8,13 +8,18 @@ public class Vehicules {
     protected float price;
     protected int places ;
 
-    public Vehicules(int nbHours, boolean payedPrice, boolean payedSecurity, float price, int places) {
+    public Vehicle(int nbHours, boolean payedPrice, boolean payedSecurity, float price, int places) {
         this.nbHours = nbHours;
         this.payedPrice = payedPrice;
         this.payedSecurity = payedSecurity;
         this.price = price;
         this.places = places;
     }
+
+    public void hourPrice(){
+        return
+    }
+
 
     public void toPayPrice() {
         if (!this.payedPrice) {
@@ -30,19 +35,11 @@ public class Vehicules {
         }
     }
 
-    private void setPayPrice(boolean b) {
-        this.payedPrice = b;
-    }
+    private void setPayPrice(boolean b) {this.payedPrice = b;}
 
-    private void setPaySecurity(boolean b) {
-        this.payedSecurity = b;
-    }
+    private void setPaySecurity(boolean b) {this.payedSecurity = b;}
 
-    public int getNbHours() {return nbHours;}
-
-    public float getPrice() {
-        return this.price;
-    }
+    public float getPrice() {return this.price;}
 
     public boolean getPayedSecurity(){ return payedSecurity; }
 

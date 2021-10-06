@@ -10,17 +10,15 @@ public abstract class Vehicle {
     protected boolean payedPrice;
     protected boolean payedSecurity;
     protected float price;
-    protected int places;
 
 
-    public Vehicle(LocalDateTime checkin, LocalDateTime checkout, boolean payedPrice, boolean payedSecurity, float price, int places) {
+    public Vehicle(LocalDateTime checkin, LocalDateTime checkout, boolean payedPrice, boolean payedSecurity, float price) {
         this.durationToPay = 0;
         this.checkin = checkin;
         this.checkout = checkout;
         this.payedPrice = payedPrice;
         this.payedSecurity = payedSecurity;
         this.price = price;
-        this.places = places;
     }
 
     public abstract int getPriceHourly();
@@ -48,10 +46,6 @@ public abstract class Vehicle {
     public float getPrice() {return this.price;}
 
     public boolean getPayedSecurity(){ return payedSecurity; }
-
-    public int getPlaces() {return this.places;}
-
-    public void setPlaces(int newPlaces) { this.places = newPlaces; }
 
     public boolean getPayedPrice() { return this.payedPrice; }
 

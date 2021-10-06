@@ -1,31 +1,38 @@
 package com.geoffrey.model.ParkingTest;
 
 import com.geoffrey.model.Parking.Parking;
+import com.geoffrey.model.Parking.TypePark;
 import com.geoffrey.model.Vehicles.Car;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import javax.xml.datatype.Duration;
-import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CarTest {
 
+    private Parking defineNewParking(String forWho, int nbPlaces){
+        TypePark carPark = new TypePark(forWho, nbPlaces);
+        List<TypePark> parks = List.of(carPark);
+        Parking parking = new Parking(parks);
+        return parking;
+    }
+
     @ValueSource(ints = {5,10,7,4,2,3})
     @ParameterizedTest
     void should_be_park_car(int nbPlaces){
-        Car car = new Car(null, null,false,false,0, nbPlaces);
-        String result = Parking.canYouPark(car);
+        Car car = new Car(null, null,false,false,0);
+        Parking parking = defineNewParking("car",nbPlaces);
+        String result = parking.canYouPark(car);
         assertEquals("Vous pouvez vous garer.", result);
     }
 
+    /*
     //le vehicule PEUT se garer
     @ValueSource(ints = {11,12,13,14})
     @ParameterizedTest
     void should_not_be_park_car(int nbPlaces){
-        Car car = new Car(null, null,false,false,0, nbPlaces);
+        Car car = new Car(null, null,false,false,0);
         String result = Parking.canYouPark(car);
         assertEquals("Parking plein !", result);
     }

@@ -1,18 +1,32 @@
 package com.geoffrey.model.ParkingTest;
 
 import com.geoffrey.model.Parking.Parking;
+import com.geoffrey.model.Parking.TypePark;
 import com.geoffrey.model.Vehicles.Scooter;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import javax.xml.datatype.Duration;
-import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ScooterTest {
 
+    private Parking defineNewParking(String forWho, int nbPlaces){
+        TypePark scooterPark = new TypePark(forWho, nbPlaces);
+        List<TypePark> parks = List.of(scooterPark);
+        Parking parking = new Parking(parks);
+        return parking;
+    }
+
+    @ValueSource(ints = {5,10,7,4,2,3})
+    @ParameterizedTest
+    void should_be_park_moto(int nbPlaces){
+        Scooter scooter = new Scooter(null, null,false,false,0);
+        Parking parking = defineNewParking("scooter",nbPlaces);
+        String result = parking.canYouPark(scooter);
+        assertEquals("Vous pouvez vous garer.", result);
+    }
+/*
     //le vehicule PEUT se garer
     @ValueSource(ints = {1,2,3,4,5,6})
     @ParameterizedTest

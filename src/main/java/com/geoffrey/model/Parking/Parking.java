@@ -15,62 +15,23 @@ public class Parking {
         this.parks = parks;
     }
 
-    //si il y a de la place le vehicule se gare
-    public String canYouPark(Vehicle vehicle){
-        int currentCapacity = getPlaceNumber(vehicle);
-        for(TypePark oneType : parks){
-            if(oneType.getCapacity() > currentCapacity){
-                int newNumberVehicules = currentCapacity + 1;
-                oneType.setCurrentCapacity(newNumberVehicules);
-                return "Vous pouvez vous garer.";
-            }
-        }
-        return "Parking plein !";
-    }
+    // -------------------------------------- METHODE SOUVENT UTILISE --------------------------------------
 
-
-    public TypePark getCurrentCapacityForOneTypePark(String name){
-        for(TypePark oneTypePark : parks) {
-            if (oneTypePark.getForWho().equals(name)) {
-
-            }
+    //a utilse quand un vehicule entre ou sort
+    private void changeCurrentCapacityByOne(TypePark theGoodType, boolean moreOrLess) {
+        int newCurrentCapacity = theGoodType.getCurrentCapacity();
+        if(moreOrLess)  // true for +1
+        {
+            newCurrentCapacity += 1;
+            theGoodType.setCurrentCapacity(newCurrentCapacity);
+        }else{ //false for -1
+            newCurrentCapacity -= 1;
+            theGoodType.setCurrentCapacity(newCurrentCapacity);
         }
-        return 0;
-    }
-
-    //distingue le type de vehicule
-    public int getPlaceNumber(Vehicle vehicle){
-        String forWho;
-        if(vehicle instanceof Car){
-            forWho = "car";
-            return getCurrentCapacityForOneTypePark(forWho);
-        }
-        if (vehicle instanceof Moto) {
-            forWho = "moto";
-            return getCurrentCapacityForOneTypePark(forWho);
-        }
-        if (vehicle instanceof Scooter) {
-            forWho = "scooter";
-            return getCurrentCapacityForOneTypePark(forWho);
-        }
-        return 0;
-    }
-
-    //Si le vehicule a paye, elle sort et laisse une place libre
-    public static String canYouOut(Vehicle vehicle) {
-        if(vehicle.getPayedPrice()){
-            if(vehicle.getPayedSecurity()) {
-                changePlacesTypePark();
-                return "Le vehicule sort...";
-            } else {
-                return "Vous n'avez pas regle le tarif pour la video surveillance votre vehicule.";
-            }
-        }
-        return "Vous n'avez pas paye le stationnement.";
     }
 
     //retourne la capacité actuelle d'un type de parking
-    private void calculatePlacesRemaining(TypePark onePark) {
+    private int getCurrentCapacityForOneTypePark(TypePark oneTypePark) {
         int capacity = oneTypePark.getCapacity();
         int currentCapacity = oneTypePark.getCurrentCapacity() + 1;
         int gap = capacity-currentCapacity;
@@ -78,6 +39,61 @@ public class Parking {
             System.out.println("Il reste " + gap + " places de '" + oneTypePark.getForWho() + "'.");
         }
         return currentCapacity;
+    }
+
+    public TypePark selectTheGoodType(String name){
+        for(TypePark oneTypePark : parks) {
+            if (oneTypePark.getForWho().equals(name)) {
+                return oneTypePark;
+            }
+        }
+        System.out.println("ERREUR !!! Parking incorrect !!!");
+        return parks.get(0);
+    }
+
+    //distingue le type de vehicule
+    public String distinctVehicle(Vehicle vehicle){
+        if(vehicle instanceof Car){
+            return "car";
+        }
+        if (vehicle instanceof Moto) {
+            return "moto";
+        }
+        if (vehicle instanceof Scooter) {
+            return "scooter";
+        }
+        return "any type";
+    }
+
+    // -------------------------------------- METHODE FONCTIONNELLE --------------------------------------
+
+    //si il y a de la place le vehicule se gare
+    public String canYouPark(Vehicle vehicle){
+        String typeVehicle = distinctVehicle(vehicle);
+        TypePark theGoodType = selectTheGoodType(typeVehicle);
+        int currentCapacity = getCurrentCapacityForOneTypePark(theGoodType);
+        for(TypePark oneType : parks){
+            if(oneType.getCapacity() > currentCapacity){
+                changeCurrentCapacityByOne(oneType,true);
+                return "Vous pouvez vous garer.";
+            }
+        }
+        return "Parking plein !";
+    }
+
+    //Si le vehicule a paye, elle sort et laisse une place libre
+    public String canYouOut(Vehicle vehicle) {
+        if(vehicle.getPayedPrice()){
+            if(vehicle.getPayedSecurity()) {
+                String typeVehicle = distinctVehicle(vehicle);
+                TypePark theGoodType = selectTheGoodType(typeVehicle);
+                changeCurrentCapacityByOne(theGoodType, false);
+                return "Le vehicule sort...";
+            } else {
+                return "Vous n'avez pas regle le tarif pour la video surveillance votre vehicule.";
+            }
+        }
+        return "Vous n'avez pas paye le stationnement.";
     }
 
     /*

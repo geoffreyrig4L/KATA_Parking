@@ -50,31 +50,34 @@ public class CarTest {
         assertEquals("Parking plein !", result);
     }
 
+
     //le vehicule PEUT partir
     @Test
     void should_out_car(){
         Car car = new Car(null, null,true,true, 10);
-        String result = Parking.canYouOut(car);
+        TypePark carPark = defineNewTypePark("car",10);
+        Parking parking = defineNewParking(carPark);
+        String result = parking.canYouOut(car);
         assertEquals("Le vehicule sort...", result);
     }
-
-    /*
-
-
 
     //le vehicule NE PEUT PAS partir
     @Test
     void should_not_out_car(){
-        Car car = new Car(null, null,false,false, 0, 10);
-        String result = Parking.canYouOut(car);
+        Car car = new Car(null, null,false,false, 0);
+        TypePark carPark = defineNewTypePark("car",10);
+        Parking parking = defineNewParking(carPark);
+        String result = parking.canYouOut(car);
         assertEquals("Vous n'avez pas paye le stationnement.", result);
     }
 
     //le vehicule N'A PAS PAYE la video surveillance
     @Test
     void should_not_out_because_security_car(){
-        Car car = new Car(null, null,true,false, 0, 10);
-        String result = Parking.canYouOut(car);
+        Car car = new Car(null, null,true,false, 0);
+        TypePark carPark = defineNewTypePark("car",10);
+        Parking parking = defineNewParking(carPark);
+        String result = parking.canYouOut(car);
         assertEquals("Vous n'avez pas regle le tarif pour la video surveillance votre vehicule.", result);
     }
 

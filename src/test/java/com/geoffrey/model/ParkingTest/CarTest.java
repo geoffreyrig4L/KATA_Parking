@@ -3,47 +3,64 @@ package com.geoffrey.model.ParkingTest;
 import com.geoffrey.model.Parking.Parking;
 import com.geoffrey.model.Parking.TypePark;
 import com.geoffrey.model.Vehicles.Car;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import java.lang.reflect.Type;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CarTest {
 
-    private Parking defineNewParking(String forWho, int nbPlaces){
+    private TypePark defineNewTypePark(String forWho, int nbPlaces){
         TypePark carPark = new TypePark(forWho, nbPlaces);
+        return carPark;
+    }
+
+    private Parking defineNewParking(TypePark carPark){
         List<TypePark> parks = List.of(carPark);
         Parking parking = new Parking(parks);
         return parking;
+    }
+
+    private void fillPark(TypePark carPark) {
+        carPark.setCurrentCapacity(carPark.getCapacity()-1);
     }
 
     @ValueSource(ints = {5,10,7,4,2,3})
     @ParameterizedTest
     void should_be_park_car(int nbPlaces){
         Car car = new Car(null, null,false,false,0);
-        Parking parking = defineNewParking("car",nbPlaces);
+        TypePark carPark = defineNewTypePark("car",nbPlaces);
+        Parking parking = defineNewParking(carPark);
         String result = parking.canYouPark(car);
         assertEquals("Vous pouvez vous garer.", result);
     }
 
-    /*
-    //le vehicule PEUT se garer
-    @ValueSource(ints = {11,12,13,14})
+    @ValueSource(ints = {5,10,7,4,2,3})
     @ParameterizedTest
-    void should_not_be_park_car(int nbPlaces){
+    void should_be_not_park_car(int nbPlaces){
         Car car = new Car(null, null,false,false,0);
-        String result = Parking.canYouPark(car);
+        TypePark carPark = defineNewTypePark("car",nbPlaces);
+        fillPark(carPark);
+        Parking parking = defineNewParking(carPark);
+        String result = parking.canYouPark(car);
         assertEquals("Parking plein !", result);
     }
 
     //le vehicule PEUT partir
     @Test
     void should_out_car(){
-        Car car = new Car(null, null,true,true, 10, 10);
+        Car car = new Car(null, null,true,true, 10);
         String result = Parking.canYouOut(car);
         assertEquals("Le vehicule sort...", result);
     }
+
+    /*
+
+
 
     //le vehicule NE PEUT PAS partir
     @Test

@@ -5,9 +5,11 @@ import com.geoffrey.model.Parking.TypePark;
 import com.geoffrey.model.Vehicles.Car;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.lang.reflect.Type;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -81,18 +83,16 @@ public class CarTest {
         assertEquals("Vous n'avez pas regle le tarif pour la video surveillance votre vehicule.", result);
     }
 
-    /*
     //paiement
-    @ValueSource(localdatetimes ={'2021-10-05T10:15:30', '2021-10-05T14:15:30', '2021-10-05T15:15:30'})
+    @CsvSource({"2021-10-05T10:15:30", "2021-10-05T14:15:30", "2021-10-05T15:15:30"})
     @ParameterizedTest
     void should_pay_car(LocalDateTime hourCheckin){
-        Car car = new Car(hourCheckin, null, false, false, 0, 5);
-        Parking.carWantToLeave(car);
-        Duration duration = Parking.calculateDuration(hourCheckin, car.getCheckout());
-        float expected = duration +5;
-        float result = Parking.checkPayedForCar(car);
+        Car car = new Car(hourCheckin, null, false, false, 0);
+        TypePark carPark = defineNewTypePark("car",10);
+        Parking parking = defineNewParking(carPark);
+        Duration nbHours = Duration.between(car.getCheckin(), car.getCheckout());
+        float expected = nbHours.toHoursPart() *2 +5;
+        float result = parking.processCheckout(car);
         assertEquals(expected, result);
     }
-
-     */
 }

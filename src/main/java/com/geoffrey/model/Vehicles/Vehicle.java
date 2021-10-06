@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public abstract class Vehicle {
 
-    protected double durationToPay;
+    protected long nbHours;
     protected LocalDateTime checkin;
     protected LocalDateTime checkout;
     protected boolean payedPrice;
@@ -13,7 +13,7 @@ public abstract class Vehicle {
 
 
     public Vehicle(LocalDateTime checkin, LocalDateTime checkout, boolean payedPrice, boolean payedSecurity, float price) {
-        this.durationToPay = 0;
+        this.nbHours=0;
         this.checkin = checkin;
         this.checkout = checkout;
         this.payedPrice = payedPrice;
@@ -25,7 +25,7 @@ public abstract class Vehicle {
 
     public void toPayPrice(){
         if(!this.payedPrice){
-            this.price += this.getPriceHourly() * this.durationToPay;
+            this.price += this.getPriceHourly() * this.nbHours;
             this.setPayPrice(true);
         }
     }
@@ -36,8 +36,6 @@ public abstract class Vehicle {
             this.setPaySecurity(true);
         }
     }
-
-    public void setDurationToPay(int newNb){this.durationToPay = newNb;}
 
     public void setPayPrice(boolean b) {this.payedPrice = b;}
 
@@ -53,9 +51,11 @@ public abstract class Vehicle {
 
     public void setCheckout(LocalDateTime now) { this.checkout = now;}
 
-    public int getDurationToPay(){ return this.getDurationToPay(); };
-
     public LocalDateTime getCheckin() {return this.checkin;}
 
     public LocalDateTime getCheckout() {return this.checkout;}
+
+    public long getNbHours() {return nbHours;}
+
+    public void setNbHours(long nbHours) {this.nbHours = nbHours;}
 }

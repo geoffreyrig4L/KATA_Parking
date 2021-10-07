@@ -18,8 +18,6 @@ public class Parking {
         this.parks = parks;
     }
 
-    // -------------------------------------- METHODE SOUVENT UTILISE --------------------------------------
-
     public TypePark selectTheGoodType(String name) {
         for (TypePark oneTypePark : parks) {
             if (oneTypePark.getForWho().equals(name)) {
@@ -44,9 +42,8 @@ public class Parking {
         return "any type";
     }
 
-    // -------------------------------------- METHODE FONCTIONNELLE --------------------------------------
-
     //si il y a de la place le vehicule se gare
+    //appelle les 2 methodes ci-dessus
     public String canYouPark(Vehicle vehicle) {
         String typeVehicle = distinctVehicle(vehicle);
         TypePark theGoodType = selectTheGoodType(typeVehicle);
@@ -56,22 +53,6 @@ public class Parking {
         }
         return "Parking plein !";
     }
-
-    /*
-    //Si le vehicule a paye, elle sort et laisse une place libre
-    public String canYouOut(Vehicle vehicle) {
-        if (vehicle.getPayedPrice()) {
-            if (vehicle.getPayedSecurity()) {
-                String typeVehicle = distinctVehicle(vehicle);
-                TypePark theGoodType = selectTheGoodType(typeVehicle);
-                boolean acceptPark = theGoodType.park();
-                return "Le vehicule sort...";
-            } else {
-                return "Vous n'avez pas regle le tarif pour la video surveillance votre vehicule.";
-            }
-        }
-        return "Vous n'avez pas paye le stationnement.";
-    }*/
 
     public String canYouOut(Vehicle vehicle, PaymentModule paymentModule) {
         if (paymentModule.getVehiclePayed().containsKey(vehicle)) {

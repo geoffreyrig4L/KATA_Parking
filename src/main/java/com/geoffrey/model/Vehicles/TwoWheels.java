@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 
 public class TwoWheels extends Vehicle{
 
-    public TwoWheels(LocalDateTime checkin, LocalDateTime checkout, boolean payedPrice, boolean payedSecurity, float price) {
-        super(checkin, checkout, payedPrice, payedSecurity, price);
+    public TwoWheels() {
+        super();
     }
 
     @Override

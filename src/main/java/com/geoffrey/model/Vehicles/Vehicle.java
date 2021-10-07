@@ -12,13 +12,13 @@ public abstract class Vehicle {
     protected float price;
 
 
-    public Vehicle(LocalDateTime checkin, LocalDateTime checkout, boolean payedPrice, boolean payedSecurity, float price) {
+    public Vehicle() {
         this.nbHours=0;
-        this.checkin = checkin;
-        this.checkout = checkout;
-        this.payedPrice = payedPrice;
-        this.payedSecurity = payedSecurity;
-        this.price = price;
+        this.checkin = null;
+        this.checkout = null;
+        this.payedPrice = false;
+        this.payedSecurity = false;
+        this.price = 0;
     }
 
     public abstract int getPriceHourly();

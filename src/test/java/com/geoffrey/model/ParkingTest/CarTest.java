@@ -34,7 +34,7 @@ public class CarTest {
     @ValueSource(ints = {5,10,7,4,2,3})
     @ParameterizedTest
     void should_be_park_car(int nbPlaces){
-        Car car = new Car(null, null,false,false,0);
+        Car car = new Car();
         TypePark carPark = defineNewTypePark("car",nbPlaces);
         Parking parking = defineNewParking(carPark);
         String result = parking.canYouPark(car);
@@ -44,7 +44,7 @@ public class CarTest {
     @ValueSource(ints = {5,10,7,4,2,3})
     @ParameterizedTest
     void should_be_not_park_car(int nbPlaces){
-        Car car = new Car(null, null,false,false,0);
+        Car car = new Car();
         TypePark carPark = defineNewTypePark("car",nbPlaces);
         fillPark(carPark);
         Parking parking = defineNewParking(carPark);
@@ -56,9 +56,11 @@ public class CarTest {
     //le vehicule PEUT partir
     @Test
     void should_out_car(){
-        Car car = new Car(null, null,true,true, 10);
+        Car car = new Car();
+        car.setCheckin(LocalDateTime.now());
         TypePark carPark = defineNewTypePark("car",10);
         Parking parking = defineNewParking(carPark);
+        parking.processCheckout(car);
         String result = parking.canYouOut(car);
         assertEquals("Le vehicule sort...", result);
     }
@@ -66,7 +68,7 @@ public class CarTest {
     //le vehicule NE PEUT PAS partir
     @Test
     void should_not_out_car(){
-        Car car = new Car(null, null,false,false, 0);
+        Car car = new Car();
         TypePark carPark = defineNewTypePark("car",10);
         Parking parking = defineNewParking(carPark);
         String result = parking.canYouOut(car);
@@ -76,9 +78,12 @@ public class CarTest {
     //le vehicule N'A PAS PAYE la video surveillance
     @Test
     void should_not_out_because_security_car(){
-        Car car = new Car(null, null,true,false, 0);
+        Car car = new Car();
+        car.setCheckin(LocalDateTime.now());
         TypePark carPark = defineNewTypePark("car",10);
         Parking parking = defineNewParking(carPark);
+        parking.processCheckout(car);
+        car.setPaySecurity(false);
         String result = parking.canYouOut(car);
         assertEquals("Vous n'avez pas regle le tarif pour la video surveillance votre vehicule.", result);
     }
@@ -87,12 +92,14 @@ public class CarTest {
     @CsvSource({"2021-10-05T10:15:30", "2021-10-05T14:15:30", "2021-10-05T15:15:30"})
     @ParameterizedTest
     void should_pay_car(LocalDateTime hourCheckin){
-        Car car = new Car(hourCheckin, null, false, false, 0);
+        Car car = new Car();
+        car.setCheckin(hourCheckin);
         TypePark carPark = defineNewTypePark("car",10);
         Parking parking = defineNewParking(carPark);
+        parking.processCheckout(car);
         Duration nbHours = Duration.between(car.getCheckin(), car.getCheckout());
         float expected = nbHours.toHoursPart() *2 +5;
-        float result = parking.processCheckout(car);
+        float result = car.getPrice();
         assertEquals(expected, result);
     }
 }

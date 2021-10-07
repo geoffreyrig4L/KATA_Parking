@@ -72,12 +72,13 @@ public class Parking {
         return "Vous n'avez pas paye le stationnement.";
     }
 
-    public float processCheckout(Vehicle vehicle) {
+    public void processCheckout(Vehicle vehicle) {
         vehicle.setCheckout(LocalDateTime.now());
         Duration nbHours = Duration.between(vehicle.getCheckin(), vehicle.getCheckout());
         vehicle.setNbHours(nbHours.toHoursPart());
         vehicle.toPayPrice();
         vehicle.toPaySecurity();
-        return vehicle.getPrice();
+        System.out.println("Prix : " +vehicle.getPayedPrice());
+        System.out.println("Securité : "+vehicle.getPayedSecurity());
     }
 }

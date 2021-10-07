@@ -29,8 +29,12 @@ public class TypePark {
     }
 
     public boolean park() {
-        int reste = capacity - currentCapacity;
-        System.out.println("Il reste " + reste + " places de '" + forWho + "'.");
+        int reste = capacity - currentCapacity ;
+        if(reste>1){
+            System.out.println("Il reste " + reste + " places de '" + forWho + "'.");
+        }else {
+            System.out.println("Il ne reste aucune place disponible.");
+        }
         boolean availablePlaces = capacity > currentCapacity + 1;
         if (availablePlaces) {
             currentCapacity = currentCapacity++;

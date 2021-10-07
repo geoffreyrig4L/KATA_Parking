@@ -46,7 +46,6 @@ public class Parking {
 
     // -------------------------------------- METHODE FONCTIONNELLE --------------------------------------
 
-    /*
     //si il y a de la place le vehicule se gare
     public String canYouPark(Vehicle vehicle) {
         String typeVehicle = distinctVehicle(vehicle);
@@ -58,6 +57,7 @@ public class Parking {
         return "Parking plein !";
     }
 
+    /*
     //Si le vehicule a paye, elle sort et laisse une place libre
     public String canYouOut(Vehicle vehicle) {
         if (vehicle.getPayedPrice()) {
@@ -71,6 +71,12 @@ public class Parking {
             }
         }
         return "Vous n'avez pas paye le stationnement.";
+    }*/
+
+    public String canYouOut(Vehicle vehicle, PaymentModule paymentModule) {
+        if (paymentModule.getVehiclePayed().containsKey(vehicle)) {
+            return "Vous pouvez sortir.";
+        }
+        return "Vous n'avez pas paye le stationnement.";
     }
-    */
 }

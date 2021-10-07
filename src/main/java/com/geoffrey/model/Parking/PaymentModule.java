@@ -12,16 +12,16 @@ public class PaymentModule {
     private HashMap<Vehicle,LocalDateTime> vehiclesMustPay;
     private HashMap<Vehicle,Float> vehiclesPayed;
 
-    public PaymentModule(HashMap<Vehicle,LocalDateTime> vehicles){
-        this.vehiclesMustPay = vehicles;
+    public PaymentModule(HashMap<Vehicle,LocalDateTime> vehiclesMustPay){
+        this.vehiclesMustPay = vehiclesMustPay;
         this.vehiclesPayed = new HashMap<>();
     }
 
     public void vehiculeEnter(Vehicle vehicle, LocalDateTime checkin) {
-        if (!checkin.equals(null)) {
-            vehiclesMustPay.put(vehicle, checkin);
-        } else {
+        if (checkin == null) {
             vehiclesMustPay.put(vehicle, LocalDateTime.now());
+        } else {
+            vehiclesMustPay.put(vehicle, checkin);
         }
     }
 
@@ -32,7 +32,6 @@ public class PaymentModule {
                     LocalDateTime checkin = vehiclesMustPay.get(oneVehicle);
                     Duration nbHours = Duration.between(checkin, LocalDateTime.now());
                     float price = oneVehicle.getPriceHourly() * nbHours.toHoursPart() + 5;
-                    System.out.println(price);
                     vehiclesPayed.put(oneVehicle, price);
                     vehiclesMustPay.remove(oneVehicle, checkin);
                 }
@@ -40,5 +39,5 @@ public class PaymentModule {
         }
     }
 
-    public HashMap<Vehicle, Float> getVehiclePayed() {return this.vehiclesPayed;    }
+    public HashMap<Vehicle, Float> getVehiclePayed() {return this.vehiclesPayed;}
 }

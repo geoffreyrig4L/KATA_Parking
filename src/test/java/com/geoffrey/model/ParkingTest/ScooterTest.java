@@ -3,7 +3,7 @@ package com.geoffrey.model.ParkingTest;
 import com.geoffrey.model.Parking.Parking;
 import com.geoffrey.model.Parking.PaymentModule;
 import com.geoffrey.model.Parking.TypePark;
-import com.geoffrey.model.Vehicles.Car;
+import com.geoffrey.model.Vehicles.Scooter;
 import com.geoffrey.model.Vehicles.Scooter;
 import com.geoffrey.model.Vehicles.Vehicle;
 import org.junit.jupiter.api.Test;
@@ -31,21 +31,21 @@ public class ScooterTest {
         return parking;
     }
 
-    private HashMap<Vehicle, LocalDateTime> defineNewPaymentModele(Scooter scooter){
-        HashMap<Vehicle, LocalDateTime> vehiclesMustPay = new HashMap<>();
-        vehiclesMustPay.put(scooter,LocalDateTime.now());
-        return vehiclesMustPay;
+    private PaymentModule defineNewPaymentModule(Scooter scooter, LocalDateTime hourCheckin){
+        HashMap<Vehicle,LocalDateTime> vehiclesMustPay = new HashMap<>();
+        PaymentModule paymentModule = new PaymentModule(vehiclesMustPay);
+        paymentModule.vehiculeEnter(scooter,hourCheckin);   //ajoute le vehicle dans vehiclesMustPay
+        return paymentModule;
     }
 
     private void fillPark(TypePark scooterPark) {
         scooterPark.setCurrentCapacity(scooterPark.getCapacity()-1);
     }
 
-    /*
     @ValueSource(ints = {5,10,7,4,2,3})
     @ParameterizedTest
     void should_be_park_scooter(int nbPlaces){
-        Scooter scooter = new Scooter();
+        Scooter scooter = new Scooter("123456");
         TypePark scooterPark = defineNewTypePark("scooter",nbPlaces);
         Parking parking = defineNewParking(scooterPark);
         String result = parking.canYouPark(scooter);
@@ -55,7 +55,7 @@ public class ScooterTest {
     @ValueSource(ints = {5,10,7,4,2,3})
     @ParameterizedTest
     void should_be_not_park_scooter(int nbPlaces){
-        Scooter scooter = new Scooter();
+        Scooter scooter = new Scooter("123456");
         TypePark scooterPark = defineNewTypePark("scooter",nbPlaces);
         fillPark(scooterPark);
         Parking parking = defineNewParking(scooterPark);
@@ -63,71 +63,39 @@ public class ScooterTest {
         assertEquals("Parking plein !", result);
     }
 
-
     //le vehicule PEUT partir
     @Test
     void should_out_scooter(){
-        Scooter scooter = new Scooter();
-        scooter.setCheckin(LocalDateTime.now());
+        Scooter scooter = new Scooter("123456");
+        PaymentModule paymentModule = defineNewPaymentModule(scooter, null);
         TypePark scooterPark = defineNewTypePark("scooter",10);
         Parking parking = defineNewParking(scooterPark);
-        parking.processCheckout(scooter);
-        String result = parking.canYouOut(scooter);
-        assertEquals("Le vehicule sort...", result);
+        paymentModule.toPay(scooter);
+        String result = parking.canYouOut(scooter,paymentModule);
+        assertEquals("Vous pouvez sortir.", result);
     }
 
     //le vehicule NE PEUT PAS partir
     @Test
     void should_not_out_scooter(){
-        Scooter scooter = new Scooter();
+        Scooter scooter = new Scooter("123456");
+        PaymentModule paymentModule = defineNewPaymentModule(scooter, null);
         TypePark scooterPark = defineNewTypePark("scooter",10);
         Parking parking = defineNewParking(scooterPark);
-        String result = parking.canYouOut(scooter);
+        String result = parking.canYouOut(scooter,paymentModule);
         assertEquals("Vous n'avez pas paye le stationnement.", result);
     }
-
-    //le vehicule N'A PAS PAYE la video surveillance
-    @Test
-    void should_not_out_because_security_scooter(){
-        Scooter scooter = new Scooter();
-        scooter.setCheckin(LocalDateTime.now());
-        TypePark scooterPark = defineNewTypePark("scooter",10);
-        Parking parking = defineNewParking(scooterPark);
-        parking.processCheckout(scooter);
-        scooter.setPaySecurity(false);
-        String result = parking.canYouOut(scooter);
-        assertEquals("Vous n'avez pas regle le tarif pour la video surveillance votre vehicule.", result);
-    }
-
-    //paiement
-    @CsvSource({"2021-10-05T10:15:30", "2021-10-05T14:15:30", "2021-10-05T15:15:30"})
-    @ParameterizedTest
-    void should_pay_car(LocalDateTime hourCheckin){
-        Scooter scooter = new Scooter();
-        scooter.setCheckin(hourCheckin);
-        TypePark scooterPark = defineNewTypePark("scooter",10);
-        Parking parking = defineNewParking(scooterPark);
-        parking.processCheckout(scooter);
-        Duration nbHours = Duration.between(scooter.getCheckin(), scooter.getCheckout());
-        float expected = nbHours.toHoursPart() +5;
-        float result = scooter.getPrice();
-        assertEquals(expected, result);
-    }
-
-     */
 
     //paiement
     @CsvSource({"2021-10-05T10:00:00", "2021-10-05T14:00:00", "2021-10-05T18:00:00"})
     @ParameterizedTest
-    void should_pay_car(LocalDateTime hourCheckin){
+    void should_pay_scooter(LocalDateTime hourCheckin){
         Scooter scooter = new Scooter("123456");
-        PaymentModule paymentModule = new PaymentModule(defineNewPaymentModele(scooter));
-        paymentModule.vehiculeEnter(scooter,hourCheckin);
+        PaymentModule paymentModule = defineNewPaymentModule(scooter, hourCheckin);
         paymentModule.toPay(scooter);
         Duration nbHours = Duration.between(hourCheckin, LocalDateTime.now());
         float expected = nbHours.toHoursPart()+5;
-        HashMap<Vehicle,Float> vehiclePayed = paymentModule.getVehiclePayed();
-        float result = vehiclePayed.get(scooter);
+        float result = paymentModule.getVehiclePayed().get(scooter);
         assertEquals(expected, result);
     }
 }

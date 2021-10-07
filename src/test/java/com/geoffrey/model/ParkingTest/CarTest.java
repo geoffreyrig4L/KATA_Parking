@@ -11,7 +11,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -31,21 +30,21 @@ public class CarTest {
         return parking;
     }
 
-    private HashMap<Vehicle, LocalDateTime> defineNewPaymentModele(Car car){
-        HashMap<Vehicle, LocalDateTime> vehiclesMustPay = new HashMap<>();
-        vehiclesMustPay.put(car,LocalDateTime.now());
-        return vehiclesMustPay;
+    private PaymentModule defineNewPaymentModule(Car car, LocalDateTime hourCheckin){
+        HashMap<Vehicle,LocalDateTime> vehiclesMustPay = new HashMap<>();
+        PaymentModule paymentModule = new PaymentModule(vehiclesMustPay);
+        paymentModule.vehiculeEnter(car,hourCheckin);   //ajoute le vehicle dans vehiclesMustPay
+        return paymentModule;
     }
 
     private void fillPark(TypePark carPark) {
         carPark.setCurrentCapacity(carPark.getCapacity()-1);
     }
 
-    /*
     @ValueSource(ints = {5,10,7,4,2,3})
     @ParameterizedTest
     void should_be_park_car(int nbPlaces){
-        Car car = new Car();
+        Car car = new Car("123456");
         TypePark carPark = defineNewTypePark("car",nbPlaces);
         Parking parking = defineNewParking(carPark);
         String result = parking.canYouPark(car);
@@ -55,7 +54,7 @@ public class CarTest {
     @ValueSource(ints = {5,10,7,4,2,3})
     @ParameterizedTest
     void should_be_not_park_car(int nbPlaces){
-        Car car = new Car();
+        Car car = new Car("123456");
         TypePark carPark = defineNewTypePark("car",nbPlaces);
         fillPark(carPark);
         Parking parking = defineNewParking(carPark);
@@ -63,55 +62,39 @@ public class CarTest {
         assertEquals("Parking plein !", result);
     }
 
-
     //le vehicule PEUT partir
     @Test
     void should_out_car(){
-        Car car = new Car();
-        car.setCheckin(LocalDateTime.now());
+        Car car = new Car("123456");
+        PaymentModule paymentModule = defineNewPaymentModule(car, null);
         TypePark carPark = defineNewTypePark("car",10);
         Parking parking = defineNewParking(carPark);
-        parking.processCheckout(car);
-        String result = parking.canYouOut(car);
-        assertEquals("Le vehicule sort...", result);
+        paymentModule.toPay(car);
+        String result = parking.canYouOut(car,paymentModule);
+        assertEquals("Vous pouvez sortir.", result);
     }
 
     //le vehicule NE PEUT PAS partir
     @Test
     void should_not_out_car(){
-        Car car = new Car();
+        Car car = new Car("123456");
+        PaymentModule paymentModule = defineNewPaymentModule(car, null);
         TypePark carPark = defineNewTypePark("car",10);
         Parking parking = defineNewParking(carPark);
-        String result = parking.canYouOut(car);
+        String result = parking.canYouOut(car,paymentModule);
         assertEquals("Vous n'avez pas paye le stationnement.", result);
     }
-
-    //le vehicule N'A PAS PAYE la video surveillance
-    @Test
-    void should_not_out_because_security_car(){
-        Car car = new Car();
-        car.setCheckin(LocalDateTime.now());
-        TypePark carPark = defineNewTypePark("car",10);
-        Parking parking = defineNewParking(carPark);
-        parking.processCheckout(car);
-        car.setPaySecurity(false);
-        String result = parking.canYouOut(car);
-        assertEquals("Vous n'avez pas regle le tarif pour la video surveillance votre vehicule.", result);
-    }
-    */
 
     //paiement
     @CsvSource({"2021-10-05T10:00:00", "2021-10-05T14:00:00", "2021-10-05T18:00:00"})
     @ParameterizedTest
     void should_pay_car(LocalDateTime hourCheckin){
         Car car = new Car("123456");
-        PaymentModule paymentModule = new PaymentModule(defineNewPaymentModele(car));
-        paymentModule.vehiculeEnter(car,hourCheckin);
+        PaymentModule paymentModule = defineNewPaymentModule(car, hourCheckin);
         paymentModule.toPay(car);
         Duration nbHours = Duration.between(hourCheckin, LocalDateTime.now());
         float expected = nbHours.toHoursPart() *2+5;
-        HashMap<Vehicle,Float> vehiclePayed = paymentModule.getVehiclePayed();
-        float result = vehiclePayed.get(car);
+        float result = paymentModule.getVehiclePayed().get(car);
         assertEquals(expected, result);
     }
 }

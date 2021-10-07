@@ -4,13 +4,12 @@ import java.time.LocalDateTime;
 
 public class Car extends Vehicle {
 
-    public Car() {
-        super();
+    public Car(String registrationNb) {
+        super(registrationNb);
     }
 
     @Override
-    public int getPriceHourly(){
+    public int getPriceHourly() {
         return 2;
     }
-
 }

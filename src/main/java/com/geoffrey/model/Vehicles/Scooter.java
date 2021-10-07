@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class Scooter extends TwoWheels {
 
-    public Scooter() {
-        super();
+    public Scooter(String registrationNb) {
+        super(registrationNb);
     }
 }

@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 
 public class Moto extends TwoWheels {
 
-    public Moto() {
-        super();
+    public Moto(String registrationNb) {
+        super(registrationNb);
     }
 }
 

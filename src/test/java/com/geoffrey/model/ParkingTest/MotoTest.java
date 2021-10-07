@@ -1,9 +1,12 @@
 package com.geoffrey.model.ParkingTest;
 
 import com.geoffrey.model.Parking.Parking;
+import com.geoffrey.model.Parking.PaymentModule;
 import com.geoffrey.model.Parking.TypePark;
 import com.geoffrey.model.Vehicles.Car;
 import com.geoffrey.model.Vehicles.Moto;
+import com.geoffrey.model.Vehicles.Moto;
+import com.geoffrey.model.Vehicles.Vehicle;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -11,6 +14,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,10 +32,17 @@ public class MotoTest {
         return parking;
     }
 
+    private HashMap<Vehicle, LocalDateTime> defineNewPaymentModele(Moto moto){
+        HashMap<Vehicle, LocalDateTime> vehiclesMustPay = new HashMap<>();
+        vehiclesMustPay.put(moto,LocalDateTime.now());
+        return vehiclesMustPay;
+    }
+
     private void fillPark(TypePark motoPark) {
         motoPark.setCurrentCapacity(motoPark.getCapacity()-1);
     }
 
+    /*
     @ValueSource(ints = {5,10,7,4,2,3})
     @ParameterizedTest
     void should_be_park_moto(int nbPlaces){
@@ -101,6 +112,24 @@ public class MotoTest {
         Duration nbHours = Duration.between(moto.getCheckin(), moto.getCheckout());
         float expected = nbHours.toHoursPart() +5;
         float result = moto.getPrice();
+        assertEquals(expected, result);
+    }
+
+     */
+
+
+    //paiement
+    @CsvSource({"2021-10-05T10:00:00", "2021-10-05T14:00:00", "2021-10-05T18:00:00"})
+    @ParameterizedTest
+    void should_pay_car(LocalDateTime hourCheckin){
+        Moto moto = new Moto("123456");
+        PaymentModule paymentModule = new PaymentModule(defineNewPaymentModele(moto));
+        paymentModule.vehiculeEnter(moto,hourCheckin);
+        paymentModule.toPay(moto);
+        Duration nbHours = Duration.between(hourCheckin, LocalDateTime.now());
+        float expected = nbHours.toHoursPart()+5;
+        HashMap<Vehicle,Float> vehiclePayed = paymentModule.getVehiclePayed();
+        float result = vehiclePayed.get(moto);
         assertEquals(expected, result);
     }
 }

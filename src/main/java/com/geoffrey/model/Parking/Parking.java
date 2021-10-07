@@ -46,6 +46,7 @@ public class Parking {
 
     // -------------------------------------- METHODE FONCTIONNELLE --------------------------------------
 
+    /*
     //si il y a de la place le vehicule se gare
     public String canYouPark(Vehicle vehicle) {
         String typeVehicle = distinctVehicle(vehicle);
@@ -71,14 +72,5 @@ public class Parking {
         }
         return "Vous n'avez pas paye le stationnement.";
     }
-
-    public void processCheckout(Vehicle vehicle) {
-        vehicle.setCheckout(LocalDateTime.now());
-        Duration nbHours = Duration.between(vehicle.getCheckin(), vehicle.getCheckout());
-        vehicle.setNbHours(nbHours.toHoursPart());
-        vehicle.toPayPrice();
-        vehicle.toPaySecurity();
-        System.out.println("Prix : " +vehicle.getPayedPrice());
-        System.out.println("Securité : "+vehicle.getPayedSecurity());
-    }
+    */
 }

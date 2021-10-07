@@ -1,15 +1,13 @@
 package com.geoffrey.model.Vehicles;
 
-import java.time.LocalDateTime;
-
 public class TwoWheels extends Vehicle{
 
-    public TwoWheels() {
-        super();
+    public TwoWheels(String registrationNb) {
+        super(registrationNb);
     }
 
     @Override
-    public int getPriceHourly(){
+    public int getPriceHourly() {
         return 1;
     }
 }

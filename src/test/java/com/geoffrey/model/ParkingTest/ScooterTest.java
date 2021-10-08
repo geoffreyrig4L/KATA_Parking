@@ -4,7 +4,6 @@ import com.geoffrey.model.Parking.Parking;
 import com.geoffrey.model.Parking.PaymentModule;
 import com.geoffrey.model.Parking.TypePark;
 import com.geoffrey.model.Vehicles.Scooter;
-import com.geoffrey.model.Vehicles.Scooter;
 import com.geoffrey.model.Vehicles.Vehicle;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -48,7 +47,7 @@ public class ScooterTest {
         Scooter scooter = new Scooter("123456");
         TypePark scooterPark = defineNewTypePark("scooter",nbPlaces);
         Parking parking = defineNewParking(scooterPark);
-        String result = parking.isParking(scooter);
+        String result = parking.park(scooter);
         assertEquals("Vous pouvez vous garer.", result);
     }
 
@@ -59,7 +58,7 @@ public class ScooterTest {
         TypePark scooterPark = defineNewTypePark("scooter",nbPlaces);
         fillPark(scooterPark);
         Parking parking = defineNewParking(scooterPark);
-        String result = parking.isParking(scooter);
+        String result = parking.park(scooter);
         assertEquals("Parking plein !", result);
     }
 
@@ -92,7 +91,7 @@ public class ScooterTest {
         TypePark scooterPark = defineNewTypePark("scooter",10);
         Parking parking = defineNewParking(scooterPark);
         int currentCapacity = scooterPark.getCurrentCapacity();
-        parking.isLeaving(scooter);
+        parking.leave(scooter);
         assertEquals(currentCapacity,scooterPark.getCurrentCapacity());
     }
     //paiement

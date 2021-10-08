@@ -11,4 +11,6 @@ public abstract class Vehicle {
     }
 
     public abstract int getPriceHourly();
+
+    public String getRegistrationNb(){return registrationNb; }
 }

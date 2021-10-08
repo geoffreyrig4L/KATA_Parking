@@ -20,26 +20,10 @@ public class Bill {
     }
 
     @Override
-    public String toString(){
-        return ("\n-FACTURE PARKING- \nDate d'impression : " +this.getDateWriting()+
-                "\nVotre vehicule : " +this.getVehicle()+
-                "\nPrix : " +this.getPrice()+
-                "€\nDurée du stationnement : " +this.getNbHours()+" heure(s)\n");
-    }
-
-    public LocalDateTime getDateWriting() {
-        return dateWriting;
-    }
-
-    public Vehicle getVehicle() {
-        return vehicle;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public int getNbHours() {
-        return nbHours;
+    public String toString() {
+        return ("\n-FACTURE PARKING- \nDate d'impression : " + dateWriting +
+                "\nVotre vehicule : " + vehicle.getRegistrationNb() +
+                "\nPrix : " + price +
+                "€\nDurée du stationnement : " + nbHours + " heure(s)\n");
     }
 }

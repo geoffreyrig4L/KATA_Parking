@@ -47,7 +47,7 @@ public class CarTest {
         Car car = new Car("123456");
         TypePark carPark = defineNewTypePark("car",nbPlaces);
         Parking parking = defineNewParking(carPark);
-        String result = parking.isParking(car);
+        String result = parking.park(car);
         assertEquals("Vous pouvez vous garer.", result);
     }
 
@@ -58,7 +58,7 @@ public class CarTest {
         TypePark carPark = defineNewTypePark("car",nbPlaces);
         fillPark(carPark);
         Parking parking = defineNewParking(carPark);
-        String result = parking.isParking(car);
+        String result = parking.park(car);
         assertEquals("Parking plein !", result);
     }
 
@@ -91,7 +91,7 @@ public class CarTest {
         TypePark carPark = defineNewTypePark("car",10);
         Parking parking = defineNewParking(carPark);
         int currentCapacity = carPark.getCurrentCapacity();
-        parking.isLeaving(car);
+        parking.leave(car);
         assertEquals(currentCapacity,carPark.getCurrentCapacity());
     }
 

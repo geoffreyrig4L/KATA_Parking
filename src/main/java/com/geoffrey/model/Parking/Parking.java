@@ -10,13 +10,13 @@ import java.util.List;
 
 public class Parking {
 
-    List<TypePark> parks = new ArrayList<>();
+    private final List<TypePark> parks;
 
     public Parking(List<TypePark> parks) {
         this.parks = parks;
     }
 
-    public TypePark selectTheGoodType(String name) {
+    private TypePark selectTheGoodType(String name) {
         for (TypePark oneTypePark : parks) {
             if (oneTypePark.getForWho().equals(name)) {
                 return oneTypePark;
@@ -26,8 +26,7 @@ public class Parking {
         return parks.get(0);
     }
 
-    //distingue le type de vehicule
-    public String distinctVehicle(Vehicle vehicle) {
+    private String distinctVehicle(Vehicle vehicle) {
         if (vehicle instanceof Car) {
             return "car";
         }
@@ -40,9 +39,7 @@ public class Parking {
         return "any type";
     }
 
-    //si il y a de la place le vehicule se gare
-    //appelle les 2 methodes ci-dessus
-    public String isParking(Vehicle vehicle) {
+    public String park(Vehicle vehicle) {
         String typeVehicle = distinctVehicle(vehicle);
         TypePark theGoodType = selectTheGoodType(typeVehicle);
         boolean acceptPark = theGoodType.incrementCurrentCapacity();
@@ -52,15 +49,14 @@ public class Parking {
         return "Parking plein !";
     }
 
-    //indique si le vehicle peut sortir
     public String authorizeToLeave(Vehicle vehicle, PaymentModule paymentModule) {
-        if (paymentModule.getVehiclePayed().containsKey(vehicle)){
+        if (paymentModule.getVehiclePayed().containsKey(vehicle)) {
             return "Vous pouvez sortir.";
         }
         return "Vous n'avez pas paye le stationnement.";
     }
 
-    public void isLeaving(Vehicle vehicle) {
+    public void leave(Vehicle vehicle) {
         String typeVehicle = distinctVehicle(vehicle);
         TypePark theGoodType = selectTheGoodType(typeVehicle);
         theGoodType.decrementCurrentCapacity();

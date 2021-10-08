@@ -5,8 +5,6 @@ import com.geoffrey.model.Vehicles.Moto;
 import com.geoffrey.model.Vehicles.Scooter;
 import com.geoffrey.model.Vehicles.Vehicle;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,20 +42,27 @@ public class Parking {
 
     //si il y a de la place le vehicule se gare
     //appelle les 2 methodes ci-dessus
-    public String canYouPark(Vehicle vehicle) {
+    public String isParking(Vehicle vehicle) {
         String typeVehicle = distinctVehicle(vehicle);
         TypePark theGoodType = selectTheGoodType(typeVehicle);
-        boolean acceptPark = theGoodType.park();
+        boolean acceptPark = theGoodType.incrementCurrentCapacity();
         if (acceptPark) {
             return "Vous pouvez vous garer.";
         }
         return "Parking plein !";
     }
 
-    public String canYouOut(Vehicle vehicle, PaymentModule paymentModule) {
-        if (paymentModule.getVehiclePayed().containsKey(vehicle)) {
+    //indique si le vehicle peut sortir
+    public String authorizeToLeave(Vehicle vehicle, PaymentModule paymentModule) {
+        if (paymentModule.getVehiclePayed().containsKey(vehicle)){
             return "Vous pouvez sortir.";
         }
         return "Vous n'avez pas paye le stationnement.";
+    }
+
+    public void isLeaving(Vehicle vehicle) {
+        String typeVehicle = distinctVehicle(vehicle);
+        TypePark theGoodType = selectTheGoodType(typeVehicle);
+        theGoodType.decrementCurrentCapacity();
     }
 }

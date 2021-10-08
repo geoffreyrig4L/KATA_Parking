@@ -34,12 +34,12 @@ public class ScooterTest {
     private PaymentModule defineNewPaymentModule(Scooter scooter, LocalDateTime hourCheckin){
         HashMap<Vehicle,LocalDateTime> vehiclesMustPay = new HashMap<>();
         PaymentModule paymentModule = new PaymentModule(vehiclesMustPay);
-        paymentModule.vehiculeEnter(scooter,hourCheckin);   //ajoute le vehicle dans vehiclesMustPay
+        paymentModule.vehicleEnter(scooter,hourCheckin);   //ajoute le vehicle dans vehiclesMustPay
         return paymentModule;
     }
 
     private void fillPark(TypePark scooterPark) {
-        scooterPark.setCurrentCapacity(scooterPark.getCapacity()-1);
+        scooterPark.setCurrentCapacity(scooterPark.getCapacity());
     }
 
     @ValueSource(ints = {5,10,7,4,2,3})
@@ -48,7 +48,7 @@ public class ScooterTest {
         Scooter scooter = new Scooter("123456");
         TypePark scooterPark = defineNewTypePark("scooter",nbPlaces);
         Parking parking = defineNewParking(scooterPark);
-        String result = parking.canYouPark(scooter);
+        String result = parking.isParking(scooter);
         assertEquals("Vous pouvez vous garer.", result);
     }
 
@@ -59,33 +59,42 @@ public class ScooterTest {
         TypePark scooterPark = defineNewTypePark("scooter",nbPlaces);
         fillPark(scooterPark);
         Parking parking = defineNewParking(scooterPark);
-        String result = parking.canYouPark(scooter);
+        String result = parking.isParking(scooter);
         assertEquals("Parking plein !", result);
     }
 
     //le vehicule PEUT partir
     @Test
-    void should_out_scooter(){
+    void should_authorize_to_leave_scooter(){
         Scooter scooter = new Scooter("123456");
         PaymentModule paymentModule = defineNewPaymentModule(scooter, null);
         TypePark scooterPark = defineNewTypePark("scooter",10);
         Parking parking = defineNewParking(scooterPark);
         paymentModule.toPay(scooter);
-        String result = parking.canYouOut(scooter,paymentModule);
+        String result = parking.authorizeToLeave(scooter,paymentModule);
         assertEquals("Vous pouvez sortir.", result);
     }
 
     //le vehicule NE PEUT PAS partir
     @Test
-    void should_not_out_scooter(){
+    void should_not_authorize_to_leave_scooter(){
         Scooter scooter = new Scooter("123456");
         PaymentModule paymentModule = defineNewPaymentModule(scooter, null);
         TypePark scooterPark = defineNewTypePark("scooter",10);
         Parking parking = defineNewParking(scooterPark);
-        String result = parking.canYouOut(scooter,paymentModule);
+        String result = parking.authorizeToLeave(scooter,paymentModule);
         assertEquals("Vous n'avez pas paye le stationnement.", result);
     }
 
+    @Test
+    void should_out_scooter(){
+        Scooter scooter = new Scooter("123456");
+        TypePark scooterPark = defineNewTypePark("scooter",10);
+        Parking parking = defineNewParking(scooterPark);
+        int currentCapacity = scooterPark.getCurrentCapacity();
+        parking.isLeaving(scooter);
+        assertEquals(currentCapacity,scooterPark.getCurrentCapacity());
+    }
     //paiement
     @CsvSource({"2021-10-05T10:00:00", "2021-10-05T14:00:00", "2021-10-05T18:00:00"})
     @ParameterizedTest

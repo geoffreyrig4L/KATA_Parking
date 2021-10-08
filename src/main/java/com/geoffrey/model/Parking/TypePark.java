@@ -28,24 +28,31 @@ public class TypePark {
         return this.currentCapacity;
     }
 
-    public boolean park() {
-        int reste = capacity - currentCapacity ;
-        if(reste>1){
-            System.out.println("Il reste " + reste + " places de '" + forWho + "'.");
-        }else {
-            System.out.println("Il ne reste aucune place disponible.");
-        }
-        boolean availablePlaces = capacity > currentCapacity + 1;
+    public boolean incrementCurrentCapacity() {
+        displayPlaceRemaining();
+        boolean availablePlaces = capacity > currentCapacity;
         if (availablePlaces) {
             currentCapacity = currentCapacity++;
             return true;
         }else{
-            unPark();
+            return false;
         }
-        return false;
     }
 
-    public void unPark() {
-        currentCapacity = currentCapacity--;
+    private void displayPlaceRemaining() {
+        int reste = capacity - currentCapacity ;
+        if(reste>1){
+            System.out.println("Il y a " + reste + " places de '" + forWho + "' disponibles.");
+        }else {
+            System.out.println("Il ne reste aucune place disponible.");
+        }
+    }
+
+    public void decrementCurrentCapacity() {
+        if(currentCapacity!=0)
+        {
+            currentCapacity = currentCapacity --;
+        }
+        displayPlaceRemaining();
     }
 }

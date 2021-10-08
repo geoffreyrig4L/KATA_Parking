@@ -34,12 +34,12 @@ public class MotoTest {
     private PaymentModule defineNewPaymentModule(Moto moto, LocalDateTime hourCheckin){
         HashMap<Vehicle,LocalDateTime> vehiclesMustPay = new HashMap<>();
         PaymentModule paymentModule = new PaymentModule(vehiclesMustPay);
-        paymentModule.vehiculeEnter(moto,hourCheckin);   //ajoute le vehicle dans vehiclesMustPay
+        paymentModule.vehicleEnter(moto,hourCheckin);   //ajoute le vehicle dans vehiclesMustPay
         return paymentModule;
     }
 
     private void fillPark(TypePark motoPark) {
-        motoPark.setCurrentCapacity(motoPark.getCapacity()-1);
+        motoPark.setCurrentCapacity(motoPark.getCapacity());
     }
 
     @ValueSource(ints = {5,10,7,4,2,3})
@@ -48,7 +48,7 @@ public class MotoTest {
         Moto moto = new Moto("123456");
         TypePark motoPark = defineNewTypePark("moto",nbPlaces);
         Parking parking = defineNewParking(motoPark);
-        String result = parking.canYouPark(moto);
+        String result = parking.isParking(moto);
         assertEquals("Vous pouvez vous garer.", result);
     }
 
@@ -59,31 +59,41 @@ public class MotoTest {
         TypePark motoPark = defineNewTypePark("moto",nbPlaces);
         fillPark(motoPark);
         Parking parking = defineNewParking(motoPark);
-        String result = parking.canYouPark(moto);
+        String result = parking.isParking(moto);
         assertEquals("Parking plein !", result);
     }
 
     //le vehicule PEUT partir
     @Test
-    void should_out_moto(){
+    void should_authorize_to_leave_moto(){
         Moto moto = new Moto("123456");
         PaymentModule paymentModule = defineNewPaymentModule(moto, null);
         TypePark motoPark = defineNewTypePark("moto",10);
         Parking parking = defineNewParking(motoPark);
         paymentModule.toPay(moto);
-        String result = parking.canYouOut(moto,paymentModule);
+        String result = parking.authorizeToLeave(moto,paymentModule);
         assertEquals("Vous pouvez sortir.", result);
     }
 
     //le vehicule NE PEUT PAS partir
     @Test
-    void should_not_out_moto(){
+    void should_not_authorize_to_leave_moto(){
         Moto moto = new Moto("123456");
         PaymentModule paymentModule = defineNewPaymentModule(moto, null);
         TypePark motoPark = defineNewTypePark("moto",10);
         Parking parking = defineNewParking(motoPark);
-        String result = parking.canYouOut(moto,paymentModule);
+        String result = parking.authorizeToLeave(moto,paymentModule);
         assertEquals("Vous n'avez pas paye le stationnement.", result);
+    }
+
+    @Test
+    void should_out_moto(){
+        Moto moto = new Moto("123456");
+        TypePark motoPark = defineNewTypePark("moto",10);
+        Parking parking = defineNewParking(motoPark);
+        int currentCapacity = motoPark.getCurrentCapacity();
+        parking.isLeaving(moto);
+        assertEquals(currentCapacity,motoPark.getCurrentCapacity());
     }
 
     //paiement

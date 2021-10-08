@@ -33,12 +33,12 @@ public class CarTest {
     private PaymentModule defineNewPaymentModule(Car car, LocalDateTime hourCheckin){
         HashMap<Vehicle,LocalDateTime> vehiclesMustPay = new HashMap<>();
         PaymentModule paymentModule = new PaymentModule(vehiclesMustPay);
-        paymentModule.vehiculeEnter(car,hourCheckin);   //ajoute le vehicle dans vehiclesMustPay
+        paymentModule.vehicleEnter(car,hourCheckin);   //ajoute le vehicle dans vehiclesMustPay
         return paymentModule;
     }
 
     private void fillPark(TypePark carPark) {
-        carPark.setCurrentCapacity(carPark.getCapacity()-1);
+        carPark.setCurrentCapacity(carPark.getCapacity());
     }
 
     @ValueSource(ints = {5,10,7,4,2,3})
@@ -47,7 +47,7 @@ public class CarTest {
         Car car = new Car("123456");
         TypePark carPark = defineNewTypePark("car",nbPlaces);
         Parking parking = defineNewParking(carPark);
-        String result = parking.canYouPark(car);
+        String result = parking.isParking(car);
         assertEquals("Vous pouvez vous garer.", result);
     }
 
@@ -58,31 +58,41 @@ public class CarTest {
         TypePark carPark = defineNewTypePark("car",nbPlaces);
         fillPark(carPark);
         Parking parking = defineNewParking(carPark);
-        String result = parking.canYouPark(car);
+        String result = parking.isParking(car);
         assertEquals("Parking plein !", result);
     }
 
     //le vehicule PEUT partir
     @Test
-    void should_out_car(){
+    void should_authorize_to_leave_car(){
         Car car = new Car("123456");
         PaymentModule paymentModule = defineNewPaymentModule(car, null);
         TypePark carPark = defineNewTypePark("car",10);
         Parking parking = defineNewParking(carPark);
         paymentModule.toPay(car);
-        String result = parking.canYouOut(car,paymentModule);
+        String result = parking.authorizeToLeave(car,paymentModule);
         assertEquals("Vous pouvez sortir.", result);
     }
 
     //le vehicule NE PEUT PAS partir
     @Test
-    void should_not_out_car(){
+    void should_not_authorize_to_leave_car(){
         Car car = new Car("123456");
         PaymentModule paymentModule = defineNewPaymentModule(car, null);
         TypePark carPark = defineNewTypePark("car",10);
         Parking parking = defineNewParking(carPark);
-        String result = parking.canYouOut(car,paymentModule);
+        String result = parking.authorizeToLeave(car,paymentModule);
         assertEquals("Vous n'avez pas paye le stationnement.", result);
+    }
+
+    @Test
+    void should_out_car(){
+        Car car = new Car("123456");
+        TypePark carPark = defineNewTypePark("car",10);
+        Parking parking = defineNewParking(carPark);
+        int currentCapacity = carPark.getCurrentCapacity();
+        parking.isLeaving(car);
+        assertEquals(currentCapacity,carPark.getCurrentCapacity());
     }
 
     //paiement
